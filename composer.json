@@ -1,0 +1,31 @@
+{
+    "name": "joebengalen/config",
+    "type": "library",
+    "description": "Lightweight configuration manager library.",
+    "keywords": ["config", "configuration"],
+    "homepage": "https://github.com/JoeBengalen/Config",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martijn Wennink",
+            "email": "joebengalen@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/JoeBengalen/Config/issues",
+        "source": "https://github.com/JoeBengalen/Config"
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "JoeBengalen\\Config\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JoeBengalen\\Config\\Test\\": "tests"
+        }
+    }
+}
