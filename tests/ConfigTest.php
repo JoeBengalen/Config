@@ -15,20 +15,22 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     
     public function testSettingAConfigurationValue()
     {
-        $this->config->set('key', 'value');
+        $result = $this->config->set('key', 'value');
         
         $this->assertEquals('value', $this->config->get('key'));
+        $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
 
     public function testSettingAnArrayOfConfigurationValues()
     {
-        $this->config->set([
+         $result = $this->config->set([
             'databaseHost' => 'localhost',
             'databaseUser' => 'root',
         ]);
         
         $this->assertEquals('localhost', $this->config->get('databaseHost'));
         $this->assertEquals('root', $this->config->get('databaseUser'));
+        $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
     
     public function testSettingANonStringAndNonAssociativeArrayKeyThrowsInvalidArgumentException()
@@ -40,16 +42,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     
     public function testSettingKeyWithDotNotation()
     {
-        $this->config->set('key1.key2', 'value');
+         $result = $this->config->set('key1.key2', 'value');
         
         $this->assertInternalType('array', $this->config->get('key1'));
         $this->assertArrayHasKey('key2', $this->config->get('key1'));
         $this->assertEquals('value', $this->config->get('key1')['key2']);
+        $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
 
     public function testSettingAnArrayWithDotNotation()
     {
-        $this->config->set([
+         $result = $this->config->set([
             'database.host' => 'localhost',
             'database.user' => 'root',
         ]);
@@ -59,11 +62,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('user', $this->config->get('database'));
         $this->assertEquals('localhost', $this->config->get('database')['host']);
         $this->assertEquals('root', $this->config->get('database')['user']);
+        $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
 
     public function testSettingAMultiDimensionalArray()
     {
-        $this->config->set([
+         $result = $this->config->set([
             'key1' => [
                 'value1',
                 'value2',
@@ -72,11 +76,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         
         $this->assertInternalType('array', $this->config->get('key1'));
         $this->assertEquals(['value1', 'value2'], $this->config->get('key1'));
+        $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
 
     public function testSettingAMultiDimensionalAssociativeArray()
     {
-        $this->config->set([
+         $result = $this->config->set([
             'key1' => [
                 'key2.key3' => 'value1',
             ],
@@ -93,6 +98,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('key3', $this->config->get('key1')['key2']);
         $this->assertEquals('value1', $this->config->get('key1')['key2']['key3']);
         $this->assertEquals(['key5.with.dot' => 'value2', 'value3', 'value4'], $this->config->get('key4'));
+        $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
 
     public function testGettingAValue()
