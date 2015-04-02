@@ -23,11 +23,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testSettingAnArrayOfConfigurationValues()
     {
         $this->config->set([
-            'databaseHost' => '127.0.0.1',
+            'databaseHost' => 'localhost',
             'databaseUser' => 'root',
         ]);
         
-        $this->assertEquals('127.0.0.1', $this->config->get('databaseHost'));
+        $this->assertEquals('localhost', $this->config->get('databaseHost'));
         $this->assertEquals('root', $this->config->get('databaseUser'));
     }
     
@@ -49,27 +49,52 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingAnArrayWithDotNotation()
     {
-        /*
         $this->config->set([
-            'database.host' => '127.0.0.1',
+            'database.host' => 'localhost',
             'database.user' => 'root',
         ]);
-        */
-        $this->markTestIncomplete();
+        
+        $this->assertInternalType('array', $this->config->get('database'));
+        $this->assertArrayHasKey('host', $this->config->get('database'));
+        $this->assertArrayHasKey('user', $this->config->get('database'));
+        $this->assertEquals('localhost', $this->config->get('database')['host']);
+        $this->assertEquals('root', $this->config->get('database')['user']);
     }
 
     public function testSettingAMultiDimensionalArray()
     {
-        /*
         $this->config->set([
             'key1' => [
-                'key2.key3' => 'value',
+                'value1',
+                'value2',
             ],
         ]);
-        */
-        $this->markTestIncomplete();
+        
+        $this->assertInternalType('array', $this->config->get('key1'));
+        $this->assertEquals(['value1', 'value2'], $this->config->get('key1'));
     }
-    
+
+    public function testSettingAMultiDimensionalAssociativeArray()
+    {
+        $this->config->set([
+            'key1' => [
+                'key2.key3' => 'value1',
+            ],
+            'key4' => [
+                'key5.with.dot' => 'value2',
+                'value3',
+                'value4',
+            ],
+        ]);
+        
+        $this->assertInternalType('array', $this->config->get('key1'));
+        $this->assertArrayHasKey('key2', $this->config->get('key1'));
+        $this->assertInternalType('array', $this->config->get('key1')['key2']);
+        $this->assertArrayHasKey('key3', $this->config->get('key1')['key2']);
+        $this->assertEquals('value1', $this->config->get('key1')['key2']['key3']);
+        $this->assertEquals(['key5.with.dot' => 'value2', 'value3', 'value4'], $this->config->get('key4'));
+    }
+
     public function testGettingAValue()
     {
         /*

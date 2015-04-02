@@ -29,7 +29,15 @@ abstract class AbstractConfig  implements ConfigInterface
             if (strpos($key, '.') !== false) {
                 $this->setDotNotationKey($key, $value); 
             } else {
-                $this->data[$key] = $value;
+                // If the value is an array of only string keys, call this 
+                // function again to make sure nested dot notations are processed.
+                if (is_array($value) && $this->containsOnlyStringKeys($value)) {
+                    foreach ($value as $k => $v) {
+                        $this->set("$key.$k", $v);
+                    }
+                } else {
+                    $this->data[$key] = $value;
+                }
             }
         } else {
             throw new \InvalidArgumentException('Key must be a string or an associative array');
@@ -91,6 +99,18 @@ abstract class AbstractConfig  implements ConfigInterface
         }
         
         $root = $value;
+    }
+    
+    /**
+     * Check if an array contains only string keys.
+     * 
+     * @param array $array Array to check.
+     * 
+     * @return bool True if array only contains string keys, false if not.
+     */
+    public function containsOnlyStringKeys(array $array)
+    {
+        return count($array) === count(array_filter(array_keys($array), 'is_string'));
     }
     
     /*******************************************************
