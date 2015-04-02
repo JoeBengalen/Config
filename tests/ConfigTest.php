@@ -38,17 +38,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->set(['invalid']);
     }
     
-    public function testSettingAKeyWithDotNotation()
+    public function testSettingKeyWithDotNotation()
     {
-        /*
         $this->config->set('key1.key2', 'value');
         
         $this->assertInternalType('array', $this->config->get('key1'));
         $this->assertArrayHasKey('key2', $this->config->get('key1'));
         $this->assertEquals('value', $this->config->get('key1')['key2']);
-        $this->assertEquals('value', $this->config->get('key1.key2'));
-        */
-        $this->markTestIncomplete();
     }
 
     public function testSettingAnArrayWithDotNotation()

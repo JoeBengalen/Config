@@ -26,7 +26,11 @@ abstract class AbstractConfig  implements ConfigInterface
                 $this->set($k, $v);
             }
         } elseif (is_string($key)) {
-            $this->data[$key] = $value;
+            if (strpos($key, '.') !== false) {
+                $this->setDotNotationKey($key, $value); 
+            } else {
+                $this->data[$key] = $value;
+            }
         } else {
             throw new \InvalidArgumentException('Key must be a string or an associative array');
         }
@@ -66,6 +70,27 @@ abstract class AbstractConfig  implements ConfigInterface
     public function clear()
     {
         
+    }
+    
+    /**
+     * Handle setting a configuration value with a dot notation key.
+     * 
+     * @param string $key   Dot notation key.
+     * @param mixed  $value Configuration value.
+     */
+    protected function setDotNotationKey($key, $value)
+    {
+        $splitKey = explode('.', $key);
+        $root = &$this->data;
+        // Look for the key, creating nested keys if needed
+        while ($part = array_shift($splitKey)) {
+            if (!isset($root[$part]) && count($splitKey)) {
+                $root[$part] = array();
+            }
+            $root = &$root[$part];
+        }
+        
+        $root = $value;
     }
     
     /*******************************************************
