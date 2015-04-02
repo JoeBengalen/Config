@@ -22,13 +22,20 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingAnArrayOfConfigurationValues()
     {
-        /*
         $this->config->set([
             'databaseHost' => '127.0.0.1',
             'databaseUser' => 'root',
         ]);
-        */
-        $this->markTestIncomplete();
+        
+        $this->assertEquals('127.0.0.1', $this->config->get('databaseHost'));
+        $this->assertEquals('root', $this->config->get('databaseUser'));
+    }
+    
+    public function testSettingANonStringAndNonAssociativeArrayKeyThrowsInvalidArgumentException()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        
+        $this->config->set(['invalid']);
     }
     
     public function testSettingAKeyWithDotNotation()

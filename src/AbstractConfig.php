@@ -2,6 +2,8 @@
 
 namespace JoeBengalen\Config;
 
+use InvalidArgumentException;
+
 /**
  * Class support keys with dot notation.
  * 
@@ -19,7 +21,15 @@ abstract class AbstractConfig  implements ConfigInterface
      */
     public function set($key, $value = null)
     {
-        $this->data[$key] = $value;
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                $this->set($k, $v);
+            }
+        } elseif (is_string($key)) {
+            $this->data[$key] = $value;
+        } else {
+            throw new \InvalidArgumentException('Key must be a string or an associative array');
+        }
     }
     
     /**
