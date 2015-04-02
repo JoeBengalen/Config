@@ -15,11 +15,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     
     public function testSettingAConfigurationValue()
     {
-        /*
         $this->config->set('key', 'value');
+        
         $this->assertEquals('value', $this->config->get('key'));
-        */
-        $this->markTestIncomplete();
     }
 
     public function testSettingAnArrayOfConfigurationValues()

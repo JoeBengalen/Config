@@ -19,7 +19,7 @@ abstract class AbstractConfig  implements ConfigInterface
      */
     public function set($key, $value = null)
     {
-        
+        $this->data[$key] = $value;
     }
     
     /**
@@ -27,7 +27,7 @@ abstract class AbstractConfig  implements ConfigInterface
      */
     public function has($key = null)
     {
-        
+        return array_key_exists($key, $this->data);
     }
     
     /**
@@ -35,7 +35,11 @@ abstract class AbstractConfig  implements ConfigInterface
      */
     public function get($key = null, $default = null)
     {
+        if ($this->has($key)) {
+            return $this->data[$key];
+        }
         
+        return $default;
     }
     
     /**
