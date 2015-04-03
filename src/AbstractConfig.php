@@ -110,7 +110,7 @@ abstract class AbstractConfig  implements ConfigInterface
      * 
      * @return bool True if array only contains string keys, false if not.
      */
-    public function containsOnlyStringKeys(array $array)
+    protected function containsOnlyStringKeys(array $array)
     {
         return count($array) === count(array_filter(array_keys($array), 'is_string'));
     }
