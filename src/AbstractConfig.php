@@ -40,7 +40,7 @@ abstract class AbstractConfig  implements ConfigInterface
                 }
             }
         } else {
-            throw new \InvalidArgumentException('Key must be a string or an associative array');
+            throw new InvalidArgumentException('Key must be a string or an associative array');
         }
         
         return $this;

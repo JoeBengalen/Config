@@ -33,11 +33,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
     
-    public function testSettingANonStringAndNonAssociativeArrayKeyThrowsInvalidArgumentException()
+    public function testSettingNonStringKeyThrowsException()
     {
         $this->setExpectedException('\InvalidArgumentException');
         
-        $this->config->set(['invalid']);
+        $this->config->set(null, 'value');
     }
     
     public function testSettingKeyWithDotNotation()
