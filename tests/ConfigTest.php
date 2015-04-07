@@ -182,10 +182,57 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     
     public function testRemove()
     {
-        /*
-        $this->config->remove('database');
+        $this->assertFalse($this->config->has('key1'));
+        
+        $this->config->set('key', 'value');
+        
+        $this->assertTrue($this->config->has('key'));
+        
+        $this->config->remove('key');
+        
+        $this->assertFalse($this->config->has('key'));
+    }
+    
+    public function testRemoveWithDotNotation()
+    {
+        $this->assertFalse($this->config->has('key1.key2.key3'));
+        $this->assertFalse($this->config->has('key1.key2.key4'));
+        
+        $this->config->set([
+            'key1' => [
+                'key2' => [
+                    'key3' => 'value1',
+                    'key4' => 'value2'
+                ],
+            ],
+        ]);
+        
+        $this->assertTrue($this->config->has('key1.key2.key3'));
+        $this->assertTrue($this->config->has('key1.key2.key4'));
+        
+        $this->config->remove('key1.key2.key3');
+                
+        $this->assertFalse($this->config->has('key1.key2.key3'));
+        $this->assertTrue($this->config->has('key1.key2.key4'));
+        
+        var_dump($this->config->get());
+        
         $this->config->remove('key1.key2');
-        */
+        
+        $this->assertFalse($this->config->has('key1.key2'));
+        $this->assertTrue($this->config->has('key1'));
+        
+        var_dump($this->config->get());
+        
+        $this->config->remove('key1');
+        
+        $this->assertFalse($this->config->has('key1'));
+        
+        var_dump($this->config->get());
+    }
+    
+    public function testClear()
+    {
         $this->markTestIncomplete();
     }
     

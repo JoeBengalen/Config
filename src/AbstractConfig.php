@@ -79,25 +79,24 @@ abstract class AbstractConfig  implements ConfigInterface
             return $this->data;
         }
         
-        if ($this->has($key)) {
-            $segs = explode('.', $key);
-            $root = $this->data;
-            // nested case
-            foreach ($segs as $part) {
-                if (array_key_exists($part, $root)) {
-                    $root = $root[$part];
-                    continue;
-                } else {
-                    $root = $default;
-                    break;
-                }
+        if (!$this->has($key)) {
+            return $default;
+        }
+
+        $segs = explode('.', $key);
+        $root = $this->data;
+
+        foreach ($segs as $part) {
+            if (array_key_exists($part, $root)) {
+                $root = $root[$part];
+                continue;
             }
             
-            // whatever we have is what we needed
-            return ($this->data[$key] = $root);
+            $root = $default;
+            break;
         }
         
-        return $default;
+        return $root;
     }
     
     /**
@@ -105,7 +104,21 @@ abstract class AbstractConfig  implements ConfigInterface
      */
     public function remove($key)
     {
-        
+        if ($this->has($key)) {
+            $segs = explode('.', $key);
+            $root = &$this->data;
+
+            foreach ($segs as $part) {
+                if (!array_key_exists($part, $root)) {
+                    return;
+                }
+                
+                $parent = &$root; // set previous root as parent
+                $root = &$root[$part];
+            }
+            
+            unset($parent[$part]);
+        }
     }
     
     /**
