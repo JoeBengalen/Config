@@ -126,7 +126,7 @@ abstract class AbstractConfig  implements ConfigInterface
      */
     public function clear()
     {
-        
+        $this->data = [];
     }
     
     /**
