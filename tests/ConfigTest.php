@@ -188,9 +188,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         
         $this->assertTrue($this->config->has('key'));
         
-        $this->config->remove('key');
+        $result = $this->config->remove('key');
         
         $this->assertFalse($this->config->has('key'));
+        
+        $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
     
     public function testRemoveWithDotNotation()

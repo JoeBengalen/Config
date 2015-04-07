@@ -119,6 +119,8 @@ abstract class AbstractConfig  implements ConfigInterface
             
             unset($parent[$part]);
         }
+        
+        return $this;
     }
     
     /**

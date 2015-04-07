@@ -37,6 +37,10 @@ interface ConfigInterface extends \ArrayAccess
      * Remove a configuration value.
      * 
      * @param string $key Configuration key to remove.
+     * 
+     * @return self.
+     * 
+     * @todo test return type!
      */
     public function remove($key);
     
