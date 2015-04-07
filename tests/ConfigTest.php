@@ -215,68 +215,100 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->config->has('key1.key2.key3'));
         $this->assertTrue($this->config->has('key1.key2.key4'));
         
-        var_dump($this->config->get());
-        
         $this->config->remove('key1.key2');
         
         $this->assertFalse($this->config->has('key1.key2'));
         $this->assertTrue($this->config->has('key1'));
         
-        var_dump($this->config->get());
-        
         $this->config->remove('key1');
         
         $this->assertFalse($this->config->has('key1'));
-        
-        var_dump($this->config->get());
     }
     
-    public function testClear()
+    public function testClearAll()
     {
-        $this->markTestIncomplete();
+        $this->assertFalse($this->config->has());
+        
+        $this->config->set([
+            'key1' => [
+                'key2' => [
+                    'key3' => 'value1',
+                    'key4' => 'value2'
+                ],
+            ],
+        ]);
+        
+        $this->assertTrue($this->config->has());
+        
+        $this->config->clear();
+        
+        $this->assertFalse($this->config->has());
     }
     
     public function testSettingWithArrayAccess()
     {
-        /*
-        $this->config['key1']['key2'] = 'value';
-        */
-        $this->markTestIncomplete();
+        $this->assertFalse($this->config->has('key1'));
+        
+        $this->config['key1'] = ['key2' => 'value1'];
+        $this->config['key1.key3'] = 'value2';
+        
+        $this->assertTrue($this->config->has('key1'));
+        $this->assertTrue($this->config->has('key1.key2'));
+        $this->assertTrue($this->config->has('key1.key3'));
+        $this->assertEquals('value1', $this->config->get('key1.key2'));
+        $this->assertEquals('value2', $this->config->get('key1.key3'));
     }
     
     public function testIssetWithArrayAccess()
     {
-        /*
-        var_dump(isset($this->config['database']));
-        var_dump(isset($this->config['key1.key2']));
-        */
-        $this->markTestIncomplete();
+        $this->assertFalse(isset($this->config['key1']));
+        
+        $this->config->set([
+            'key1' => [
+                'key2' => 'value1',
+            ],
+        ]);
+        
+        $this->assertTrue(isset($this->config['key1']));
+        $this->assertTrue(isset($this->config['key1.key2']));
+        $this->assertFalse(isset($this->config['key1.nothing']));
     }
     
     public function testGettingWithArrayAccess()
     {
-        /*
-        var_dump($this->config['database']);
-        var_dump($this->config['key1.key2']);
-        */
-        $this->markTestIncomplete();
+        $this->config->set([
+            'key1' => [
+                'key2' => 'value',
+            ],
+        ]);
+        
+        $this->assertEquals(['key2' => 'value'], $this->config['key1']);
+        $this->assertEquals('value', $this->config['key1.key2']);
+        $this->assertNull($this->config['key1.nothing']);
     }
     
     public function testUnsettingWithArrayAccess()
     {
-        /*
-        unset($this->config['database']);
+        $this->assertFalse($this->config->has('key1'));
+        
+        $this->config->set([
+            'key1' => [
+                'key2' => 'value1',
+                'key3' => 'value2',
+            ],
+        ]);
+        
+        $this->assertTrue($this->config->has('key1.key2'));
+        $this->assertTrue($this->config->has('key1.key3'));
+        
         unset($this->config['key1.key2']);
-        */
-        $this->markTestIncomplete();
-    }
-    
-    public function testCLearAll()
-    {
-        /*
-        $this->config->clear();
-        */
-        $this->markTestIncomplete();
+        
+        $this->assertFalse($this->config->has('key1.key2'));
+        $this->assertTrue($this->config->has('key1.key3'));
+        
+        unset($this->config['key1']);
+        
+        $this->assertFalse($this->config->has('key1'));
     }
     
     public function testLoadPhpArrayFile()
