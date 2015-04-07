@@ -52,7 +52,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingAnArrayWithDotNotation()
     {
-         $result = $this->config->set([
+        $result = $this->config->set([
             'database.host' => 'localhost',
             'database.user' => 'root',
         ]);
@@ -103,61 +103,81 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGettingAValue()
     {
-        /*
-        $this->config->get('database');
-        */
-        $this->markTestIncomplete();
+        $this->config->set('key', 'value');
+        
+        $this->assertEquals('value', $this->config->get('key'));
     }
     
     public function testGettingAValueWithADotNotatedKey()
     {
-        /*
-        $this->config->get('key1.key2');
-        */
-        $this->markTestIncomplete();
+        $this->config->set([
+            'key1' => [
+                'key2' => [
+                    'key3' => 'value',
+                ],
+            ],
+        ]);
+        
+        $this->assertEquals('value', $this->config->get('key1.key2.key3'));
     }
     
-    public function testGettingANonExistingValue()
+    public function testGettingANonExistingValueReturnsNull()
     {
-        /*
-        $this->config->get('nothing');
-        */
-        $this->markTestIncomplete();
+        $this->assertNull($this->config->get('nothing'));
     }
     
     public function testGettingANonExistingValueWithDefault()
     {
-        /*
-        $this->config->get('nothing', 'default');
-        */
-        $this->markTestIncomplete();
+        $this->assertEquals('default', $this->config->get('nothing', 'default'));
     }
     
     public function testGetWithoutArgumentReturnsAll()
     {
-        /*
-        $this->config->get();
-        */
-        $this->markTestIncomplete();
+        $data = [
+            'key1' => [
+                'key2' => [
+                    'key3' => 'value',
+                ],
+            ],
+        ];
+        
+        $this->config->set($data);
+        
+        $this->assertEquals($data, $this->config->get());
     }
     
     public function testHasKey()
     {
-        /*
-        // has should return true of a value of null is set!
-        $this->config->has('database');
-        $this->config->has('nothing');
-        */
-        $this->markTestIncomplete();
+        $this->config->set('exists');
+        
+        $this->assertTrue($this->config->has('exists'));
+        $this->assertFalse($this->config->has('nothing'));
     }
     
     public function testHasWithDoNotatedKey()
+    {        
+        $this->config->set([
+            'key1' => [
+                'key2' => [
+                    'key3' => 'value',
+                ],
+            ],
+        ]);
+        
+        $this->assertTrue($this->config->has('key1.key2.key3'));
+        $this->assertTrue($this->config->has('key1.key2'));
+        $this->assertTrue($this->config->has('key1'));
+        $this->assertFalse($this->config->has('key1.nothing'));
+        $this->assertFalse($this->config->has('nothing'));
+    }
+    
+    public function testHasAnything()
     {
-        /*
-        // has should return true of a value of null is set!
-        $this->config->has('key1.key2');
-        */
-        $this->markTestIncomplete();
+        $this->assertFalse($this->config->has());
+        
+        $this->config->set('key', 'value');
+        
+        $this->assertTrue($this->config->has());
     }
     
     public function testRemove()

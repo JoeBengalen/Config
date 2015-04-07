@@ -17,7 +17,7 @@ interface ConfigInterface extends \ArrayAccess
     /**
      * Check if a configuration value is set.
      * 
-     * @param string $key Confifuration keu to check. If null if given it will check if any value is set at all.
+     * @param string $key Confifuration key to check. If null if given it will check if any value is set at all.
      * 
      * @return boolean True if the key exists, false if not.
      */

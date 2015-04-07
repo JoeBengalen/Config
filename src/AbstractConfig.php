@@ -51,7 +51,23 @@ abstract class AbstractConfig  implements ConfigInterface
      */
     public function has($key = null)
     {
-        return array_key_exists($key, $this->data);
+        if (is_null($key)) {
+            return !empty($this->data);
+        }
+        
+        $segs = explode('.', $key);
+        $root = $this->data;
+        
+        // nested case
+        foreach ($segs as $part) {
+            if (!array_key_exists($part, $root)) {
+                return false;
+            }
+            
+            $root = $root[$part];
+        }
+        
+        return true;
     }
     
     /**
@@ -59,8 +75,26 @@ abstract class AbstractConfig  implements ConfigInterface
      */
     public function get($key = null, $default = null)
     {
+        if (is_null($key)) {
+            return $this->data;
+        }
+        
         if ($this->has($key)) {
-            return $this->data[$key];
+            $segs = explode('.', $key);
+            $root = $this->data;
+            // nested case
+            foreach ($segs as $part) {
+                if (array_key_exists($part, $root)) {
+                    $root = $root[$part];
+                    continue;
+                } else {
+                    $root = $default;
+                    break;
+                }
+            }
+            
+            // whatever we have is what we needed
+            return ($this->data[$key] = $root);
         }
         
         return $default;
