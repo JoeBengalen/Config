@@ -8,8 +8,8 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
 ;
 
 return Symfony\CS\Config\Config::create()
+    ->level(Symfony\CS\FixerInterface::NONE_LEVEL)
     ->fixers([
-        // Use StyleCI recommended fixers
         'psr0',
         'encoding',
         'short_tag',
@@ -31,7 +31,7 @@ return Symfony\CS\Config\Config::create()
         'trailing_spaces',
         'visibility',
         'blankline_after_open_tag',
-        'concat_without_spaces',
+//      'concat_without_spaces', // couterpart of concat_with_spaces
         'double_arrow_multiline_whitespaces',
         'duplicate_semicolon',
         'empty_return',
@@ -47,10 +47,11 @@ return Symfony\CS\Config\Config::create()
         'object_operator',
         'operators_spaces',
         'phpdoc_indent',
+        'phpdoc_no_empty_return',
         'phpdoc_no_package',
         'phpdoc_params',
         'phpdoc_scalar',
-        'phpdoc_separation',
+//      'phpdoc_separation', // -> also puts line between @copyright, @link, @license and @version
         'phpdoc_short_description',
         'phpdoc_to_comment',
         'phpdoc_trim',
@@ -67,13 +68,25 @@ return Symfony\CS\Config\Config::create()
         'standardize_not_equal',
         'ternary_spaces',
         'trim_array_spaces',
+        'unary_operators_spaces',
         'unused_use',
         'whitespacy_lines',
         'align_double_arrow',
+        'align_equals',
+        'concat_with_spaces',
+        'ereg_to_preg',
+//      'header_comment',
+//      'long_array_syntax', // -> counterpart of short_array_syntax
         'multiline_spaces_before_semicolon',
+        'newline_after_open_tag',
+//      'no_blank_lines_before_namespace', // -> counterpart of single_blank_line_before_namespace
         'ordered_use',
-        'phpdoc_order',
+//      'php4_constructor', // -> results in internal error ...
+//      'phpdoc_order', // -> puts @throws above @returns which I do not want
+//      'phpdoc_var_to_type', // -> counterpart of phpdoc_type_to_var
         'short_array_syntax',
+//      'strict', // -> do not force, could change code behaviour
+//      'strict_param', // -> do not force, could change code behaviour
     ])
     ->finder($finder)
 ;
