@@ -1,39 +1,18 @@
 <?php
 
-namespace JoeBengalen\Config;
+require_once 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-require_once 'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+// Instantiate the config object.
+$config = new \JoeBengalen\Config\Config();
 
-$config = new Config();
-$config->load(__DIR__.DIRECTORY_SEPARATOR.'config.php');
+// Load a php config file info the config object.
+$config->load(__DIR__ . DIRECTORY_SEPARATOR . 'config.php');
 
+// Set some more configurations.
 $config->set([
     'database.host' => '127.0.0.1',
     'database.user' => 'root',
 ]);
 
-$config->set([
-    'key1' => [
-        'key2.key3' => 'value',
-    ],
-]);
-
-$config->get('database');
-$config->get('key1.key2');
-
-// has should return true of a value of null is set!
-$config->has('database');
-$config->has('key1.key2');
-$config->has('nothing');
-
-$config->remove('database');
-$config->remove('key1.key2');
-
-var_dump($config['database']);
-var_dump($config['key1.key2']);
-
-var_dump(isset($config['database']));
-var_dump(isset($config['key1.key2']));
-
-unset($config['database']);
-unset($config['key1.key2']);
+// Show an array of all database configurations
+var_dump($config->get('database'));
