@@ -6,7 +6,7 @@ return [
         'key3' => 'value2',
     ],
     'key4.key5' => 'value3',
-    'key6' => [
+    'key6'      => [
         'value4',
         'value5',
         true,
