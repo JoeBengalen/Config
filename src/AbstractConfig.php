@@ -87,13 +87,7 @@ abstract class AbstractConfig  implements ConfigInterface
         $root = $this->data;
 
         foreach ($segs as $part) {
-            if (array_key_exists($part, $root)) {
-                $root = $root[$part];
-                continue;
-            }
-            
-            $root = $default;
-            break;
+            $root = $root[$part];
         }
         
         return $root;
@@ -109,11 +103,7 @@ abstract class AbstractConfig  implements ConfigInterface
             $root = &$this->data;
 
             foreach ($segs as $part) {
-                if (!array_key_exists($part, $root)) {
-                    return;
-                }
-                
-                $parent = &$root; // set previous root as parent
+                $parent = &$root;
                 $root = &$root[$part];
             }
             
