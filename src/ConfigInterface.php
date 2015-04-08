@@ -1,7 +1,19 @@
 <?php
+/**
+ * JoeBengalen Config library.
+ *
+ * @author      Martijn Wennink <joebengalen@gmail.com>
+ * @copyright   Copyright (c) 2015 Martijn Wennink
+ * @link        https://github.com/JoeBengalen/Config
+ * @license     https://github.com/JoeBengalen/Config/blob/master/LICENSE.md (MIT License)
+ * @version     1.0.0
+ */
 
 namespace JoeBengalen\Config;
 
+/**
+ * Config Interface.
+ */
 interface ConfigInterface extends \ArrayAccess
 {
     /**
@@ -39,8 +51,6 @@ interface ConfigInterface extends \ArrayAccess
      * @param string $key Configuration key to remove.
      * 
      * @return self.
-     * 
-     * @todo test return type!
      */
     public function remove($key);
     

@@ -1,10 +1,22 @@
 <?php
+/**
+ * JoeBengalen Config library.
+ *
+ * @author      Martijn Wennink <joebengalen@gmail.com>
+ * @copyright   Copyright (c) 2015 Martijn Wennink
+ * @link        https://github.com/JoeBengalen/Config
+ * @license     https://github.com/JoeBengalen/Config/blob/master/LICENSE.md (MIT License)
+ * @version     1.0.0
+ */
 
 namespace JoeBengalen\Config;
 
 use InvalidArgumentException;
 use RuntimeException;
 
+/**
+ * Config class.
+ */
 class Config extends AbstractConfig
 {
     /**

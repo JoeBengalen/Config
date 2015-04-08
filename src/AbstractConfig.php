@@ -1,12 +1,22 @@
 <?php
+/**
+ * JoeBengalen Config library.
+ *
+ * @author      Martijn Wennink <joebengalen@gmail.com>
+ * @copyright   Copyright (c) 2015 Martijn Wennink
+ * @link        https://github.com/JoeBengalen/Config
+ * @license     https://github.com/JoeBengalen/Config/blob/master/LICENSE.md (MIT License)
+ * @version     1.0.0
+ */
 
 namespace JoeBengalen\Config;
 
 use InvalidArgumentException;
 
 /**
- * Class support keys with dot notation.
+ * Abstract Config implementing ConfigInterface.
  * 
+ * This class supports dot.notated.array keys.
  * Internally all dot notated keys are stored as arrays.
  */
 abstract class AbstractConfig  implements ConfigInterface
