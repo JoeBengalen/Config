@@ -128,7 +128,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     
     public function testGettingANonExistingValueWithDefault()
     {
-        $this->assertEquals('default', $this->config->get('nothing', 'default'));
+        $this->config->set([
+            'key1.key3' => 'value',
+        ]);
+        
+        $this->assertEquals('default1', $this->config->get('nothing', 'default1'));
+        $this->assertEquals('default2', $this->config->get('key1.nothing', 'default2'));
     }
     
     public function testGetWithoutArgumentReturnsAll()
@@ -212,6 +217,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->config->has('key1.key2.key3'));
         $this->assertTrue($this->config->has('key1.key2.key4'));
         
+        $this->config->remove('key1.key2.nothing');
         $this->config->remove('key1.key2.key3');
                 
         $this->assertFalse($this->config->has('key1.key2.key3'));
@@ -313,11 +319,52 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->config->has('key1'));
     }
     
-    public function testLoadPhpArrayFile()
+    public function testLoadingArrayFile()
     {
-        /*
-        $this->config->load('config.php');
-        */
-        $this->markTestIncomplete();
+        $this->assertFalse($this->config->has());
+        
+        $this->config->load(__DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'array.php');
+        
+        $expected = [
+            'key1' => [
+                'key2' => 'value1',
+                'key3' => 'value2',
+            ],
+            'key4' => [
+                'key5' => 'value3',
+            ],
+            'key6' => [
+                'value4',
+                'value5',
+                true,
+                false,
+                null,
+            ],
+        ];
+        
+        $this->assertEquals($expected, $this->config->get());
+    }
+    
+    public function testLoadingEmptyArrayFile()
+    {
+        $this->assertFalse($this->config->has());
+        
+        $this->config->load(__DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'emptyArray.php');
+        
+        $this->assertFalse($this->config->has());
+    }
+    
+    public function testLoadingNonExistingFileThrowsException()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        
+        $this->config->load(__DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'notExisting.php');
+    }
+    
+    public function testLoadingStringFileThrowsException()
+    {
+        $this->setExpectedException('\RuntimeException');
+        
+        $this->config->load(__DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'string.php');
     }
 }
