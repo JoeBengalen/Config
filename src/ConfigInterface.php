@@ -20,8 +20,8 @@ interface ConfigInterface extends \ArrayAccess
     /**
      * Set one or more configuration values.
      *
-     * @param string|array $key   Config key value or array of keys and values.
-     * @param mixed        $value Configuration value or null if $key is given an array.
+     * @param string|array $key   Configuration key or an array of keys and values.
+     * @param mixed|null   $value Configuration value or null if $key is given an array.
      *
      * @return self.
      */
@@ -30,7 +30,7 @@ interface ConfigInterface extends \ArrayAccess
     /**
      * Check if a configuration value is set.
      *
-     * @param string $key Confifuration key to check. If null if given it will check if any value is set at all.
+     * @param string $key Configuration key to check. If null is given it will check if any value is set at all.
      *
      * @return bool True if the key exists, false if not.
      */
