@@ -144,7 +144,7 @@ abstract class AbstractConfig  implements ConfigInterface
         $root     = &$this->data;
         // Look for the key, creating nested keys if needed
         while ($part = array_shift($splitKey)) {
-            if (!isset($root[$part]) && count($splitKey)) {
+            if ((!isset($root[$part]) || !is_array($root[$part])) && count($splitKey)) {
                 $root[$part] = [];
             }
             $root = &$root[$part];

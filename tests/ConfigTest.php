@@ -100,6 +100,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['key5.with.dot' => 'value2', 'value3', 'value4'], $this->config->get('key4'));
         $this->assertInstanceOf('\JoeBengalen\Config\Config', $result);
     }
+    
+    public function testOverwritingExistingValueWithDotNotatedNesting()
+    {
+        $this->config->set('key1', 'value1');
+        
+        $this->assertEquals('value1', $this->config->get('key1'));
+        
+        $this->config->set('key1.key2', 'value2');
+        
+        $this->assertEquals(['key2' => 'value2'], $this->config->get('key1'));
+    }
 
     public function testGettingAValue()
     {
