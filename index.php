@@ -16,3 +16,6 @@ $config->set([
 
 // Show an array of all database configurations
 var_dump($config->get('database'));
+
+// get() returns null if not found, so you are able to use a default:
+var_dump($config->get('none.existing') ?: 'default value');

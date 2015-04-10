@@ -39,12 +39,11 @@ interface ConfigInterface extends \ArrayAccess
     /**
      * Get a configuration value.
      *
-     * @param string $key     Configuration key whose value to get.
-     * @param mixed  $default Default value if the searched key is not found.
+     * @param string $key Configuration key whose value to get.
      *
-     * @return mixed Matching configuration value or $default if the key was not found.
+     * @return mixed|null Matching configuration value or null if the key was not found.
      */
-    public function get($key = null, $default = null);
+    public function get($key = null);
 
     /**
      * Remove a configuration value.

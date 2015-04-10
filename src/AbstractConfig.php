@@ -84,14 +84,14 @@ abstract class AbstractConfig  implements ConfigInterface
     /**
      * {@inheritdoc}
      */
-    public function get($key = null, $default = null)
+    public function get($key = null)
     {
         if (is_null($key)) {
             return $this->data;
         }
 
         if (!$this->has($key)) {
-            return $default;
+            return;
         }
 
         $segs = explode('.', $key);
